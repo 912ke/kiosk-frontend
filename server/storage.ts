@@ -146,10 +146,15 @@ export class MemStorage implements IStorage {
     const { date, start, end, duration_minutes, step_minutes, count } = query;
     
     // Parse time range
-    const startTime = this.parseTime(start);
-    const endTime = this.parseTime(end);
+    let startTime = this.parseTime(start);
+    let endTime = this.parseTime(end);
     
-    // Get bookings for the date
+    // If end time is 00:00 (midnight), treat it as end of day (24:00 = 1440 minutes)
+    if (endTime === 0 || endTime <= startTime) {
+      endTime = 24 * 60; // 1440 minutes = midnight next day
+    }
+    
+    // Get bookings for the date (and potentially next day if slots extend past midnight)
     const dayStart = new Date(`${date}T00:00:00`);
     const dayEnd = new Date(`${date}T23:59:59`);
     const dayBookings = await this.getBookings(dayStart, dayEnd);
@@ -163,13 +168,13 @@ export class MemStorage implements IStorage {
     let currentTime = startTime;
     
     while (currentTime < endTime) {
-      const slotStart = this.formatTime(date, currentTime);
-      const slotEnd = this.formatTime(date, currentTime + duration_minutes);
-      
-      // Check if slot end exceeds the end time
+      // Check if slot end would exceed the end time
       if (currentTime + duration_minutes > endTime) {
         break;
       }
+      
+      const slotStart = this.formatTime(date, currentTime);
+      const slotEnd = this.formatTime(date, currentTime + duration_minutes);
       
       // Count how many hosts are booked during this slot
       const bookedHosts = new Set<number>();
