@@ -15,6 +15,7 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [showPhoneNumpad, setShowPhoneNumpad] = useState(false);
 
   const handleSubmit = () => {
     if (!phone || !name || !agreed) return;
@@ -32,14 +33,20 @@ export default function Register() {
       
       <div className="flex-1 overflow-auto">
         <div className="max-w-2xl mx-auto p-8 space-y-8">
-          <PhoneField value={phone} onChange={setPhone} />
+          <PhoneField 
+            value={phone} 
+            onChange={setPhone}
+            showNumpad={showPhoneNumpad}
+            onToggleNumpad={setShowPhoneNumpad}
+          />
 
           <div className="space-y-2">
-            <Label className="text-lg">Имя *</Label>
+            <Label className="text-lg">Придумай ник *</Label>
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Введите ваше имя"
+              onFocus={() => setShowPhoneNumpad(false)}
+              placeholder="Введите ваш ник"
               className="h-14 text-xl"
               data-testid="input-name"
             />
@@ -51,12 +58,13 @@ export default function Register() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => setShowPhoneNumpad(false)}
               placeholder="example@mail.com"
               className="h-14 text-xl"
               data-testid="input-email"
             />
           </div>
-
+          
           <div className="flex items-start gap-3">
             <Checkbox
               checked={agreed}

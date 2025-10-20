@@ -17,6 +17,7 @@ export default function Deposit() {
   const [showQR, setShowQR] = useState(false);
   const [customAmount, setCustomAmount] = useState('');
   const [selectedPreset, setSelectedPreset] = useState<number | null>(null);
+  const [showPhoneNumpad, setShowPhoneNumpad] = useState(false);
 
   const presetAmounts = [3000, 5000, 10000, 15000];
 
@@ -89,7 +90,12 @@ export default function Deposit() {
       
       <div className="flex-1 overflow-auto">
         <div className="max-w-2xl mx-auto p-8 space-y-8">
-          <PhoneField value={phone} onChange={setPhone} />
+          <PhoneField 
+            value={phone} 
+            onChange={setPhone}
+            showNumpad={showPhoneNumpad}
+            onToggleNumpad={setShowPhoneNumpad}
+          />
 
           <div className="space-y-6">
             <div className="space-y-4">
@@ -101,7 +107,7 @@ export default function Deposit() {
                     size="lg"
                     variant={selectedPreset === amt ? 'default' : 'outline'}
                     className="h-16 text-xl"
-                    onClick={() => handleAmountSelect(amt)}
+                    onClick={() => { handleAmountSelect(amt); setShowPhoneNumpad(false); }}
                     data-testid={`button-amount-${amt}`}
                   >
                     ₸{(amt / 1000)}k
@@ -124,12 +130,13 @@ export default function Deposit() {
               <Input
                 value={customAmount}
                 readOnly
+                onFocus={() => setShowPhoneNumpad(false)}
                 className="h-16 text-3xl text-center font-bold"
                 placeholder="0"
                 data-testid="input-custom-amount"
               />
               <Numpad
-                onNumberClick={(num) => handleCustomAmountChange(customAmount + num)}
+                onNumberClick={(num) => { handleCustomAmountChange(customAmount + num); setShowPhoneNumpad(false); }}
                 onBackspace={() => handleCustomAmountChange(customAmount.slice(0, -1))}
                 onClear={() => handleCustomAmountChange('')}
               />

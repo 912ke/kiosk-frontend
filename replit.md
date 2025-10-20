@@ -19,10 +19,14 @@ Completed full-stack integration of the booking system and applied branding upda
 4. **Bug Fix** - Resolved time slot generation issue where midnight end time (00:00) was incorrectly parsed
 5. **Branding Update** - Replaced "SimRacing Club" with "BurnoutZ" branding, updated logo to new design with red lightning bolt
 6. **Address Update** - Changed address from "ул. Примерная 123" to "ул. Жамбыла 204"
-7. **Logo Sizing** - Set logo width to 1/3 of screen width for optimal kiosk display
+7. **Logo Sizing** - Reduced logo to 1/6 of screen width for compact kiosk display
 8. **UI Enhancement** - Increased all icon sizes by 200% (doubled) for better visibility on kiosk displays
 9. **Contrast Improvement** - Enhanced button contrast in dark theme for better readability
 10. **Deposit Flow Update** - Made custom amount input always visible alongside quick select buttons
+11. **Navigation Optimization** - Reduced navigation tile height from 200px to 120px for better screen utilization
+12. **Button Animations** - Added smooth press animations (scale 0.98) to all interactive elements
+13. **Numpad UX Fix** - Phone number pad now auto-hides when user clicks on other input fields
+14. **Registration Update** - Changed "Имя" field to "Придумай ник" for better user engagement
 
 ## System Architecture
 

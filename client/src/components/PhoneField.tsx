@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Numpad } from './Numpad';
@@ -7,10 +6,15 @@ interface PhoneFieldProps {
   value: string;
   onChange: (value: string) => void;
   label?: string;
+  showNumpad?: boolean;
+  onToggleNumpad?: (show: boolean) => void;
 }
 
-export function PhoneField({ value, onChange, label = 'Телефон' }: PhoneFieldProps) {
-  const [showNumpad, setShowNumpad] = useState(false);
+export function PhoneField({ value, onChange, label = 'Телефон', showNumpad = true, onToggleNumpad }: PhoneFieldProps) {
+  
+  const handleFocus = () => {
+    onToggleNumpad?.(true);
+  };
 
   const formatPhone = (raw: string) => {
     const digits = raw.replace(/\D/g, '');
@@ -46,7 +50,7 @@ export function PhoneField({ value, onChange, label = 'Телефон' }: PhoneF
         <Input
           value={value || '+7 '}
           readOnly
-          onClick={() => setShowNumpad(true)}
+          onClick={handleFocus}
           className="h-14 text-xl cursor-pointer"
           data-testid="input-phone"
         />
