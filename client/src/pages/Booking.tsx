@@ -191,7 +191,7 @@ export default function Booking() {
             <span className={i <= stepIndex ? 'text-foreground' : 'text-muted-foreground'}>
               {s}
             </span>
-            {i < steps.length - 1 && <ChevronRight className="w-4 h-4 text-muted-foreground" />}
+            {i < steps.length - 1 && <ChevronRight className="w-6 h-6 text-muted-foreground" />}
           </div>
         ))}
       </div>
@@ -200,7 +200,7 @@ export default function Booking() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <KioskHeader title="Бронирование" onBack={() => step === 'hall' ? navigate('/') : setStep('hall')} />
+      <KioskHeader showLogo onBack={() => step === 'hall' ? navigate('/') : setStep('hall')} />
       
       <div className="flex-1 overflow-auto">
         <div className="max-w-4xl mx-auto p-8">
@@ -220,7 +220,7 @@ export default function Booking() {
                     <h3 className="text-2xl font-semibold mb-4">{hall.name}</h3>
                     <div className="space-y-2 text-muted-foreground">
                       <div className="flex items-center gap-2">
-                        <Users className="w-5 h-5" />
+                        <Users className="w-8 h-8" />
                         <span>Доступно: {hall.online} из {hall.total}</span>
                       </div>
                       <div className="flex gap-2 mt-4">
@@ -244,7 +244,7 @@ export default function Booking() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <Label className="text-xl flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
+                  <Calendar className="w-8 h-8" />
                   Дата
                 </Label>
                 <div className="grid grid-cols-3 gap-4">
@@ -280,7 +280,7 @@ export default function Booking() {
 
               <div className="space-y-4">
                 <Label className="text-xl flex items-center gap-2">
-                  <Clock className="w-5 h-5" />
+                  <Clock className="w-8 h-8" />
                   Длительность
                 </Label>
                 <div className="grid grid-cols-3 gap-4">
@@ -340,7 +340,7 @@ export default function Booking() {
               </p>
               {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  <Loader2 className="w-12 h-12 animate-spin text-primary" />
                 </div>
               ) : slots.length > 0 ? (
                 <div className="space-y-4">
@@ -406,7 +406,7 @@ export default function Booking() {
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      <Loader2 className="w-8 h-8 mr-2 animate-spin" />
                       Создание...
                     </>
                   ) : (

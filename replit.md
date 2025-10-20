@@ -12,11 +12,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 20, 2025)
 
-Completed full-stack integration of the booking system:
+Completed full-stack integration of the booking system and applied branding updates:
 1. **Backend API Implementation** - Created RESTful API endpoints for catalog, hosts, time slots, and booking creation
 2. **Frontend API Integration** - Connected all pages to use real API calls instead of mock data
 3. **End-to-End Testing** - Verified complete booking flow from hall selection to confirmation
 4. **Bug Fix** - Resolved time slot generation issue where midnight end time (00:00) was incorrectly parsed
+5. **Branding Update** - Replaced "SimRacing Club" with "BurnoutZ" branding, updated logo across all pages
+6. **Address Update** - Changed address from "ул. Примерная 123" to "ул. Жамбыла 204"
+7. **UI Enhancement** - Increased icon sizes by 150% for better visibility on kiosk displays
+8. **Contrast Improvement** - Enhanced button contrast in dark theme for better readability
+9. **Deposit Flow Update** - Made custom amount input always visible alongside quick select buttons
 
 ## System Architecture
 

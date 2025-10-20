@@ -51,7 +51,7 @@ export default function Deposit() {
   if (showQR) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
-        <KioskHeader title="Оплата Kaspi QR" />
+        <KioskHeader showLogo />
         
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="max-w-md w-full space-y-8">
@@ -85,7 +85,7 @@ export default function Deposit() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <KioskHeader title="Пополнение депозита" />
+      <KioskHeader showLogo />
       
       <div className="flex-1 overflow-auto">
         <div className="max-w-2xl mx-auto p-8 space-y-8">

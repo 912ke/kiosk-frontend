@@ -6,14 +6,14 @@ import { MapPin, Phone, Clock, Mail } from 'lucide-react';
 export default function About() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <KioskHeader title="О нас" />
+      <KioskHeader showLogo />
       
       <div className="flex-1 overflow-auto">
         <div className="max-w-4xl mx-auto p-8 space-y-8">
           <Card className="p-8 space-y-6">
-            <h2 className="text-3xl font-bold">SimRacing Club</h2>
+            <h2 className="text-3xl font-bold">BurnoutZ</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Добро пожаловать в SimRacing Club - лучший симрейсинг клуб в Алматы. 
+              Добро пожаловать в BurnoutZ - лучший симрейсинг клуб в Алматы. 
               Мы предлагаем профессиональное оборудование и незабываемые впечатления 
               от виртуальных гонок.
             </p>
@@ -22,17 +22,17 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="p-6 space-y-4">
               <h3 className="text-xl font-semibold flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-primary" />
+                <MapPin className="w-8 h-8 text-primary" />
                 Адрес
               </h3>
               <p className="text-muted-foreground">
-                г. Алматы, ул. Примерная 123
+                г. Алматы, ул. Жамбыла 204
               </p>
             </Card>
 
             <Card className="p-6 space-y-4">
               <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Clock className="w-5 h-5 text-primary" />
+                <Clock className="w-8 h-8 text-primary" />
                 Часы работы
               </h3>
               <p className="text-muted-foreground">
@@ -42,7 +42,7 @@ export default function About() {
 
             <Card className="p-6 space-y-4">
               <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Phone className="w-5 h-5 text-primary" />
+                <Phone className="w-8 h-8 text-primary" />
                 Телефон
               </h3>
               <p className="text-muted-foreground">
@@ -52,11 +52,11 @@ export default function About() {
 
             <Card className="p-6 space-y-4">
               <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Mail className="w-5 h-5 text-primary" />
+                <Mail className="w-8 h-8 text-primary" />
                 Email
               </h3>
               <p className="text-muted-foreground">
-                info@simracing.club
+                info@burnoutz.club
               </p>
             </Card>
           </div>

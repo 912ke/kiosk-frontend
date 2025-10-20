@@ -67,8 +67,8 @@ export class MemStorage implements IStorage {
   async getCatalog(): Promise<CatalogInfo> {
     return {
       source: 'local',
-      name: 'SimRacing Club',
-      address: 'г. Алматы, ул. Примерная 123',
+      name: 'BurnoutZ',
+      address: 'г. Алматы, ул. Жамбыла 204',
       currency: 'KZT',
       services: ['Аренда симулятора', 'Турниры', 'Обучение'],
     };

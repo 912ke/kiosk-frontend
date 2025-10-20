@@ -23,7 +23,7 @@ export function NavigationTile({ icon: Icon, title, subtitle, onClick, testId }:
         asChild
       >
         <div>
-          <Icon className="w-16 h-16 text-primary" />
+          <Icon className="w-24 h-24 text-primary" />
           <div className="text-center">
             <div className="text-2xl font-semibold">{title}</div>
             {subtitle && <div className="text-muted-foreground mt-1">{subtitle}</div>}

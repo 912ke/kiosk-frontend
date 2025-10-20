@@ -29,7 +29,7 @@ export function Numpad({ onNumberClick, onBackspace, onClear }: NumpadProps) {
                 onClick={onBackspace}
                 data-testid="button-numpad-backspace"
               >
-                <Delete className="w-6 h-6" />
+                <Delete className="w-9 h-9" />
               </Button>
             );
           }

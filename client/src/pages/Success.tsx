@@ -49,7 +49,7 @@ export default function Success() {
     <div className="min-h-screen bg-background flex items-center justify-center p-8">
       <Card className="max-w-2xl w-full p-12 space-y-8 text-center">
         <div className="flex justify-center">
-          <CheckCircle2 className="w-24 h-24 text-chart-2" />
+          <CheckCircle2 className="w-36 h-36 text-chart-2" />
         </div>
         
         <div className="space-y-4">

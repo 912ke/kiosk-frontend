@@ -1,14 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, HelpCircle } from 'lucide-react';
 import { useLocation } from 'wouter';
+import logoUrl from '@assets/burnoutz new_1760951585479.png';
 
 interface KioskHeaderProps {
-  title: string;
+  title?: string;
   onBack?: () => void;
   onHelp?: () => void;
+  showLogo?: boolean;
 }
 
-export function KioskHeader({ title, onBack, onHelp }: KioskHeaderProps) {
+export function KioskHeader({ title, onBack, onHelp, showLogo = false }: KioskHeaderProps) {
   const [, navigate] = useLocation();
 
   const handleBack = () => {
@@ -29,10 +31,16 @@ export function KioskHeader({ title, onBack, onHelp }: KioskHeaderProps) {
           className="min-w-[56px]"
           data-testid="button-back"
         >
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-9 h-9" />
         </Button>
         
-        <h1 className="text-2xl font-semibold text-center flex-1">{title}</h1>
+        {showLogo ? (
+          <div className="flex-1 flex justify-center">
+            <img src={logoUrl} alt="Logo" className="h-12" />
+          </div>
+        ) : (
+          <h1 className="text-2xl font-semibold text-center flex-1">{title}</h1>
+        )}
         
         {onHelp ? (
           <Button
@@ -42,7 +50,7 @@ export function KioskHeader({ title, onBack, onHelp }: KioskHeaderProps) {
             className="min-w-[56px]"
             data-testid="button-help"
           >
-            <HelpCircle className="w-6 h-6" />
+            <HelpCircle className="w-9 h-9" />
           </Button>
         ) : (
           <div className="min-w-[56px]" />

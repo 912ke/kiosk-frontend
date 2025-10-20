@@ -28,7 +28,7 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <KioskHeader title="Регистрация" />
+      <KioskHeader showLogo />
       
       <div className="flex-1 overflow-auto">
         <div className="max-w-2xl mx-auto p-8 space-y-8">

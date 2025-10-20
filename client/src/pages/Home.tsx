@@ -2,6 +2,7 @@ import { NavigationTile } from '@/components/NavigationTile';
 import { CalendarDays, CreditCard, UserPlus, Info, HelpCircle, Globe } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
+import logoUrl from '@assets/burnoutz new_1760951585479.png';
 
 export default function Home() {
   const [, navigate] = useLocation();
@@ -9,10 +10,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center p-8">
-        <div className="text-center mb-12 space-y-4">
-          <h1 className="text-5xl font-bold">SimRacing Club</h1>
+        <div className="text-center mb-12 space-y-6">
+          <img src={logoUrl} alt="BurnoutZ Logo" className="h-32 mx-auto" />
           <p className="text-xl text-muted-foreground">
-            г. Алматы, ул. Примерная 123
+            г. Алматы, ул. Жамбыла 204
           </p>
           <p className="text-lg text-muted-foreground">
             Ежедневно 12:00 - 00:00
@@ -60,7 +61,7 @@ export default function Home() {
             onClick={() => console.log('Help requested')}
             data-testid="button-help"
           >
-            <HelpCircle className="w-5 h-5" />
+            <HelpCircle className="w-8 h-8" />
             Помощь администратора
           </Button>
           <Button
@@ -70,7 +71,7 @@ export default function Home() {
             onClick={() => console.log('Language change')}
             data-testid="button-language"
           >
-            <Globe className="w-5 h-5" />
+            <Globe className="w-8 h-8" />
             Изменить язык
           </Button>
         </div>
