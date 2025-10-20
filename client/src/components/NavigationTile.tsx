@@ -19,14 +19,14 @@ export function NavigationTile({ icon: Icon, title, subtitle, onClick, testId }:
     >
       <Button
         variant="ghost"
-        className="w-full h-full p-8 flex flex-col items-center justify-center gap-4 min-h-[200px] no-default-hover-elevate no-default-active-elevate"
+        className="w-full h-full p-4 flex flex-col items-center justify-center gap-2 min-h-[120px] no-default-hover-elevate no-default-active-elevate"
         asChild
       >
         <div>
-          <Icon className="w-48 h-48 text-primary" />
+          <Icon className="w-32 h-32 text-primary" />
           <div className="text-center">
-            <div className="text-2xl font-semibold">{title}</div>
-            {subtitle && <div className="text-muted-foreground mt-1">{subtitle}</div>}
+            <div className="text-xl font-semibold">{title}</div>
+            {subtitle && <div className="text-muted-foreground mt-1 text-sm">{subtitle}</div>}
           </div>
         </div>
       </Button>

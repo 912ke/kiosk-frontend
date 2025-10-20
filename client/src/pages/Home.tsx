@@ -10,17 +10,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center p-8">
-        <div className="text-center mb-12 space-y-6">
+        <div className="text-center mb-6 space-y-4">
           <img src={logoUrl} alt="BurnoutZ Logo" className="h-16 mx-auto" />
-          <p className="text-xl text-muted-foreground">
+          <p className="text-lg text-muted-foreground">
             г. Алматы, ул. Жамбыла 204
           </p>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             Ежедневно 12:00 - 00:00
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl w-full">
           <NavigationTile
             icon={UserPlus}
             title="Регистрация"
