@@ -25,8 +25,9 @@ Completed full-stack integration of the booking system and applied branding upda
 10. **Deposit Flow Update** - Made custom amount input always visible alongside quick select buttons
 11. **Navigation Optimization** - Reduced navigation tile height from 200px to 120px for better screen utilization
 12. **Button Animations** - Added smooth press animations (scale 0.98) to all interactive elements
-13. **Numpad UX Fix** - Phone number pad now auto-hides when user clicks on other input fields
+13. **Numpad UX Fix** - Phone number pad now auto-hides when user clicks on other input fields, fixed navigation bug
 14. **Registration Update** - Changed "Имя" field to "Придумай ник" for better user engagement
+15. **Docker Deployment** - Created Docker configuration files for production deployment
 
 ## System Architecture
 

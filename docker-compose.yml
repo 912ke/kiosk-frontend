@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - SESSION_SECRET=${SESSION_SECRET:-change-this-secret-in-production}
+      # Если используется PostgreSQL, раскомментируйте и настройте:
+      # - DATABASE_URL=${DATABASE_URL}
+      # - PGHOST=${PGHOST}
+      # - PGPORT=${PGPORT}
+      # - PGUSER=${PGUSER}
+      # - PGPASSWORD=${PGPASSWORD}
+      # - PGDATABASE=${PGDATABASE}
+    restart: unless-stopped
+    # Если нужна база данных PostgreSQL, раскомментируйте:
+    # depends_on:
+    #   - postgres
+
+  # Опционально: PostgreSQL база данных
+  # postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     - POSTGRES_USER=burnoutz
+  #     - POSTGRES_PASSWORD=change-this-password
+  #     - POSTGRES_DB=burnoutz_kiosk
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:
