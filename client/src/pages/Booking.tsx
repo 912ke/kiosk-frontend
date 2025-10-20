@@ -220,7 +220,7 @@ export default function Booking() {
                     <h3 className="text-2xl font-semibold mb-4">{hall.name}</h3>
                     <div className="space-y-2 text-muted-foreground">
                       <div className="flex items-center gap-2">
-                        <Users className="w-8 h-8" />
+                        <Users className="w-16 h-16" />
                         <span>Доступно: {hall.online} из {hall.total}</span>
                       </div>
                       <div className="flex gap-2 mt-4">
@@ -244,7 +244,7 @@ export default function Booking() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <Label className="text-xl flex items-center gap-2">
-                  <Calendar className="w-8 h-8" />
+                  <Calendar className="w-16 h-16" />
                   Дата
                 </Label>
                 <div className="grid grid-cols-3 gap-4">
@@ -280,7 +280,7 @@ export default function Booking() {
 
               <div className="space-y-4">
                 <Label className="text-xl flex items-center gap-2">
-                  <Clock className="w-8 h-8" />
+                  <Clock className="w-16 h-16" />
                   Длительность
                 </Label>
                 <div className="grid grid-cols-3 gap-4">
@@ -301,7 +301,7 @@ export default function Booking() {
 
               <div className="space-y-4">
                 <Label className="text-xl flex items-center gap-2">
-                  <Users className="w-5 h-5" />
+                  <Users className="w-10 h-10" />
                   Количество ригов
                 </Label>
                 <div className="grid grid-cols-4 gap-4">

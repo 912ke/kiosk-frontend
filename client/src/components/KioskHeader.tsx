@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, HelpCircle } from 'lucide-react';
 import { useLocation } from 'wouter';
-import logoUrl from '@assets/burnoutz new white_1760952813914.png';
+import logoUrl from '@assets/burnoutz new white_1760952952425.png';
 
 interface KioskHeaderProps {
   title?: string;
@@ -31,12 +31,12 @@ export function KioskHeader({ title, onBack, onHelp, showLogo = false }: KioskHe
           className="min-w-[56px]"
           data-testid="button-back"
         >
-          <ArrowLeft className="w-9 h-9" />
+          <ArrowLeft className="w-18 h-18" />
         </Button>
         
         {showLogo ? (
           <div className="flex-1 flex justify-center">
-            <img src={logoUrl} alt="Logo" className="h-6" />
+            <img src={logoUrl} alt="Logo" className="w-1/3" />
           </div>
         ) : (
           <h1 className="text-2xl font-semibold text-center flex-1">{title}</h1>
@@ -50,7 +50,7 @@ export function KioskHeader({ title, onBack, onHelp, showLogo = false }: KioskHe
             className="min-w-[56px]"
             data-testid="button-help"
           >
-            <HelpCircle className="w-9 h-9" />
+            <HelpCircle className="w-18 h-18" />
           </Button>
         ) : (
           <div className="min-w-[56px]" />

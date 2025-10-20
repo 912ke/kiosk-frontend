@@ -58,7 +58,7 @@ export function QRDisplay({ data, expiryMinutes = 10, onExpired }: QRDisplayProp
       </Card>
       
       <div className="flex items-center justify-center gap-2 text-muted-foreground">
-        <Clock className="w-8 h-8" />
+        <Clock className="w-16 h-16" />
         <span className="text-lg">
           {minutes}:{seconds.toString().padStart(2, '0')}
         </span>

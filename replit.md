@@ -17,11 +17,12 @@ Completed full-stack integration of the booking system and applied branding upda
 2. **Frontend API Integration** - Connected all pages to use real API calls instead of mock data
 3. **End-to-End Testing** - Verified complete booking flow from hall selection to confirmation
 4. **Bug Fix** - Resolved time slot generation issue where midnight end time (00:00) was incorrectly parsed
-5. **Branding Update** - Replaced "SimRacing Club" with "BurnoutZ" branding, updated logo across all pages
+5. **Branding Update** - Replaced "SimRacing Club" with "BurnoutZ" branding, updated logo to new design with red lightning bolt
 6. **Address Update** - Changed address from "ул. Примерная 123" to "ул. Жамбыла 204"
-7. **UI Enhancement** - Increased icon sizes by 150% for better visibility on kiosk displays
-8. **Contrast Improvement** - Enhanced button contrast in dark theme for better readability
-9. **Deposit Flow Update** - Made custom amount input always visible alongside quick select buttons
+7. **Logo Sizing** - Set logo width to 1/3 of screen width for optimal kiosk display
+8. **UI Enhancement** - Increased all icon sizes by 200% (doubled) for better visibility on kiosk displays
+9. **Contrast Improvement** - Enhanced button contrast in dark theme for better readability
+10. **Deposit Flow Update** - Made custom amount input always visible alongside quick select buttons
 
 ## System Architecture
 

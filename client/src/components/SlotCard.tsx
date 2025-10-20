@@ -16,13 +16,13 @@ export function SlotCard({ timeRange, available, price, onBook, disabled }: Slot
       <div className="flex items-center justify-between gap-4">
         <div className="flex-1 space-y-2">
           <div className="flex items-center gap-2 text-xl font-semibold">
-            <Clock className="w-8 h-8 text-primary" />
+            <Clock className="w-16 h-16 text-primary" />
             {timeRange}
           </div>
           
           <div className="flex items-center gap-4 text-muted-foreground">
             <div className="flex items-center gap-1">
-              <Users className="w-6 h-6" />
+              <Users className="w-12 h-12" />
               <span>Доступно: {available}</span>
             </div>
             {price && <span>₸{price.toLocaleString()}</span>}
