@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { KioskHeader } from '@/components/KioskHeader';
 import { SlotCard } from '@/components/SlotCard';
 import { Button } from '@/components/ui/button';
@@ -6,37 +6,106 @@ import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useLocation } from 'wouter';
 import { useBookingStore } from '@/store/bookingStore';
-import { Calendar, Clock, Users, ChevronRight } from 'lucide-react';
+import { useClientStore } from '@/store/clientStore';
+import { Calendar, Clock, Users, ChevronRight, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import dayjs from 'dayjs';
+import { api } from '@/lib/api';
+import type { Host, TimeSlot } from '@shared/schema';
 
 type BookingStep = 'hall' | 'datetime' | 'slots' | 'confirm';
 
+interface HallGroup {
+  id: number;
+  name: string;
+  online: number;
+  total: number;
+}
+
 export default function Booking() {
   const [, navigate] = useLocation();
-  const { date, duration, count, setBookingData } = useBookingStore();
+  const { duration, count, setBookingData } = useBookingStore();
+  const { phone, name } = useClientStore();
+  const { toast } = useToast();
   const [step, setStep] = useState<BookingStep>('hall');
   const [selectedHall, setSelectedHall] = useState<number | null>(null);
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [selectedTime, setSelectedTime] = useState('');
-
-  const halls = [
-    { id: 1, name: 'Главный зал', online: 8, total: 10 },
-    { id: 2, name: 'VIP зал', online: 3, total: 5 },
-  ];
-
-  const timeSlots = Array.from({ length: 24 }, (_, i) => {
-    const hour = 12 + Math.floor(i / 2);
-    const minute = i % 2 === 0 ? '00' : '30';
-    if (hour >= 24) return null;
-    return `${hour.toString().padStart(2, '0')}:${minute}`;
-  }).filter(Boolean) as string[];
+  const [loading, setLoading] = useState(false);
+  const [halls, setHalls] = useState<HallGroup[]>([]);
+  const [slots, setSlots] = useState<TimeSlot[]>([]);
+  const [hosts, setHosts] = useState<Host[]>([]);
 
   const durations = [60, 90, 120];
 
-  const mockSlots = timeSlots.slice(0, 6).map((time) => ({
-    time,
-    available: Math.floor(Math.random() * 5) + 1,
-  }));
+  useEffect(() => {
+    loadHalls();
+  }, []);
+
+  useEffect(() => {
+    if (step === 'slots' && selectedDate && duration) {
+      loadSlots();
+    }
+  }, [step, selectedDate, duration, count]);
+
+  const loadHalls = async () => {
+    try {
+      setLoading(true);
+      const allHosts = await api.getHosts(false, false);
+      setHosts(allHosts);
+      
+      const hallGroups = allHosts.reduce((acc, host) => {
+        if (host.groupId) {
+          if (!acc[host.groupId]) {
+            acc[host.groupId] = {
+              id: host.groupId,
+              name: host.groupName || `Зал ${host.groupId}`,
+              online: 0,
+              total: 0,
+            };
+          }
+          acc[host.groupId].total++;
+          if (host.online) acc[host.groupId].online++;
+        }
+        return acc;
+      }, {} as Record<number, HallGroup>);
+
+      setHalls(Object.values(hallGroups));
+    } catch (error) {
+      console.error('Error loading halls:', error);
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось загрузить список залов',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadSlots = async () => {
+    try {
+      setLoading(true);
+      const availableSlots = await api.getSlots({
+        date: selectedDate,
+        start: '12:00',
+        end: '00:00',
+        duration_minutes: duration,
+        step_minutes: 30,
+        count,
+      });
+      setSlots(availableSlots);
+    } catch (error) {
+      console.error('Error loading slots:', error);
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось загрузить доступные слоты',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleHallSelect = (hallId: number) => {
     setSelectedHall(hallId);
@@ -59,10 +128,51 @@ export default function Booking() {
     setStep('confirm');
   };
 
-  const handleConfirm = () => {
-    console.log('Booking confirmed:', { selectedHall, selectedDate, selectedTime, duration, count });
-    const bookingId = Math.floor(Math.random() * 10000);
-    navigate(`/success?type=booking&bookingId=${bookingId}`);
+  const handleConfirm = async () => {
+    if (!selectedTime || !selectedHall) return;
+
+    try {
+      setLoading(true);
+      
+      const selectedHosts = hosts
+        .filter(h => h.groupId === selectedHall && h.online)
+        .slice(0, count)
+        .map(h => h.id);
+
+      if (selectedHosts.length < count) {
+        toast({
+          title: 'Ошибка',
+          description: 'Недостаточно доступных ригов',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      const from = `${selectedDate} ${selectedTime}:00`;
+      const to = dayjs(`${selectedDate} ${selectedTime}`).add(duration, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+
+      const result = await api.createBooking({
+        hosts: selectedHosts,
+        from,
+        to,
+        comment: '',
+        clientPhone: phone || undefined,
+        clientName: name || undefined,
+      });
+
+      if (result.ok && result.booking) {
+        navigate(`/success?type=booking&bookingId=${result.booking.id}`);
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось создать бронирование',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderStepIndicator = () => {
@@ -228,17 +338,31 @@ export default function Booking() {
               <p className="text-muted-foreground">
                 {dayjs(selectedDate).format('DD MMMM YYYY')} • {duration} минут • {count} риг(ов)
               </p>
-              <div className="space-y-4">
-                {mockSlots.map((slot) => (
-                  <SlotCard
-                    key={slot.time}
-                    timeRange={`${slot.time}-${dayjs(`2024-01-01 ${slot.time}`).add(duration, 'minutes').format('HH:mm')}`}
-                    available={slot.available}
-                    price={2500}
-                    onBook={() => handleSlotSelect(slot.time)}
-                  />
-                ))}
-              </div>
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                </div>
+              ) : slots.length > 0 ? (
+                <div className="space-y-4">
+                  {slots.map((slot) => {
+                    const startTime = dayjs(slot.start).format('HH:mm');
+                    const endTime = dayjs(slot.end).format('HH:mm');
+                    return (
+                      <SlotCard
+                        key={slot.start}
+                        timeRange={`${startTime}-${endTime}`}
+                        available={slot.available}
+                        price={2500}
+                        onBook={() => handleSlotSelect(startTime)}
+                      />
+                    );
+                  })}
+                </div>
+              ) : (
+                <Card className="p-8 text-center text-muted-foreground">
+                  На выбранную дату нет доступных слотов
+                </Card>
+              )}
             </div>
           )}
 
@@ -277,9 +401,17 @@ export default function Booking() {
                   size="lg"
                   className="w-full h-16 text-xl"
                   onClick={handleConfirm}
+                  disabled={loading}
                   data-testid="button-confirm-booking"
                 >
-                  Подтвердить бронирование
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      Создание...
+                    </>
+                  ) : (
+                    'Подтвердить бронирование'
+                  )}
                 </Button>
                 <Button
                   size="lg"
