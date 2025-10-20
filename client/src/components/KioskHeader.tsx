@@ -36,7 +36,7 @@ export function KioskHeader({ title, onBack, onHelp, showLogo = false }: KioskHe
         
         {showLogo ? (
           <div className="flex-1 flex justify-center">
-            <img src={logoUrl} alt="Logo" className="w-1/3" />
+            <img src={logoUrl} alt="Logo" className="w-1/6" />
           </div>
         ) : (
           <h1 className="text-2xl font-semibold text-center flex-1">{title}</h1>

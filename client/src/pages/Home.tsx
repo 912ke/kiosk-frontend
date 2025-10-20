@@ -11,7 +11,7 @@ export default function Home() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <div className="text-center mb-12 space-y-6">
-          <img src={logoUrl} alt="BurnoutZ Logo" className="h-32 mx-auto" />
+          <img src={logoUrl} alt="BurnoutZ Logo" className="h-16 mx-auto" />
           <p className="text-xl text-muted-foreground">
             г. Алматы, ул. Жамбыла 204
           </p>
