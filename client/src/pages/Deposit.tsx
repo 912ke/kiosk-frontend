@@ -14,22 +14,26 @@ export default function Deposit() {
   const [, navigate] = useLocation();
   const { amount, setAmount, setStatus } = useDepositStore();
   const [phone, setPhone] = useState('');
-  const [showCustomAmount, setShowCustomAmount] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [customAmount, setCustomAmount] = useState('');
+  const [selectedPreset, setSelectedPreset] = useState<number | null>(null);
 
-  const presetAmounts = [3000, 5000, 10000];
+  const presetAmounts = [3000, 5000, 10000, 15000];
 
   const handleAmountSelect = (amt: number) => {
     setAmount(amt);
-    setShowCustomAmount(false);
+    setSelectedPreset(amt);
+    setCustomAmount('');
   };
 
-  const handleCustomAmountSubmit = () => {
-    const amt = parseInt(customAmount);
+  const handleCustomAmountChange = (value: string) => {
+    setCustomAmount(value);
+    setSelectedPreset(null);
+    const amt = parseInt(value);
     if (amt > 0) {
       setAmount(amt);
-      setShowCustomAmount(false);
+    } else {
+      setAmount(0);
     }
   };
 
@@ -87,59 +91,50 @@ export default function Deposit() {
         <div className="max-w-2xl mx-auto p-8 space-y-8">
           <PhoneField value={phone} onChange={setPhone} />
 
-          <div className="space-y-4">
-            <Label className="text-lg">Сумма пополнения</Label>
-            <div className="grid grid-cols-3 gap-4">
-              {presetAmounts.map((amt) => (
-                <Button
-                  key={amt}
-                  size="lg"
-                  variant={amount === amt ? 'default' : 'outline'}
-                  className="h-16 text-xl"
-                  onClick={() => handleAmountSelect(amt)}
-                  data-testid={`button-amount-${amt}`}
-                >
-                  ₸{(amt / 1000)}k
-                </Button>
-              ))}
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <Label className="text-lg">Быстрый выбор суммы</Label>
+              <div className="grid grid-cols-2 gap-4">
+                {presetAmounts.map((amt) => (
+                  <Button
+                    key={amt}
+                    size="lg"
+                    variant={selectedPreset === amt ? 'default' : 'outline'}
+                    className="h-16 text-xl"
+                    onClick={() => handleAmountSelect(amt)}
+                    data-testid={`button-amount-${amt}`}
+                  >
+                    ₸{(amt / 1000)}k
+                  </Button>
+                ))}
+              </div>
             </div>
-            <Button
-              size="lg"
-              variant={showCustomAmount ? 'default' : 'outline'}
-              className="w-full h-16 text-xl"
-              onClick={() => setShowCustomAmount(true)}
-              data-testid="button-custom-amount"
-            >
-              Другая сумма
-            </Button>
-          </div>
 
-          {showCustomAmount && (
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">или</span>
+              </div>
+            </div>
+
             <Card className="p-6 space-y-4">
-              <Label className="text-lg">Введите сумму</Label>
+              <Label className="text-lg">Введите любую сумму</Label>
               <Input
                 value={customAmount}
                 readOnly
-                className="h-14 text-2xl text-center"
+                className="h-16 text-3xl text-center font-bold"
                 placeholder="0"
                 data-testid="input-custom-amount"
               />
               <Numpad
-                onNumberClick={(num) => setCustomAmount(prev => prev + num)}
-                onBackspace={() => setCustomAmount(prev => prev.slice(0, -1))}
-                onClear={() => setCustomAmount('')}
+                onNumberClick={(num) => handleCustomAmountChange(customAmount + num)}
+                onBackspace={() => handleCustomAmountChange(customAmount.slice(0, -1))}
+                onClear={() => handleCustomAmountChange('')}
               />
-              <Button
-                size="lg"
-                className="w-full h-14"
-                onClick={handleCustomAmountSubmit}
-                disabled={!customAmount || parseInt(customAmount) === 0}
-                data-testid="button-confirm-custom-amount"
-              >
-                Подтвердить
-              </Button>
             </Card>
-          )}
+          </div>
 
           {amount > 0 && (
             <div className="text-center p-4 bg-card rounded-lg">
