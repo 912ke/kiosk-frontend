@@ -1,76 +1,23 @@
-import type { CatalogInfo, Host, TimeSlot, Booking } from '@shared/schema';
+const API_BASE =
+  (import.meta as any).env?.VITE_API_BASE ||
+  (typeof window !== "undefined" ? window.location.origin : "");
 
-const API_BASE = '';
-
-export interface BookingRequest {
-  hosts: number[];
-  from: string;
-  to: string;
-  comment?: string;
-  clientPhone?: string;
-  clientName?: string;
+async function json<T>(url: string, init?: RequestInit): Promise<T> {
+  const r = await fetch(url, { ...init, headers: { "Content-Type": "application/json", ...(init?.headers||{}) } });
+  if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+  return r.json() as Promise<T>;
 }
 
-export interface BookingResponse {
-  ok: boolean;
-  booking?: {
-    id: number;
-    hosts: number[];
-    from: Date;
-    to: Date;
-    status: string;
-  };
-  error?: string;
+export async function getCatalog() {
+  return json(`${API_BASE}/api/catalog`);
 }
-
-export const api = {
-  async getCatalog(): Promise<CatalogInfo> {
-    const res = await fetch(`${API_BASE}/api/catalog`);
-    if (!res.ok) throw new Error('Failed to fetch catalog');
-    return res.json();
-  },
-
-  async getHosts(includeOffline = false, onlyGroups = false): Promise<Host[]> {
-    const params = new URLSearchParams();
-    if (includeOffline) params.append('include_offline', 'true');
-    if (onlyGroups) params.append('only_groups', 'true');
-    
-    const res = await fetch(`${API_BASE}/api/hosts?${params}`);
-    if (!res.ok) throw new Error('Failed to fetch hosts');
-    return res.json();
-  },
-
-  async getSlots(params: {
-    date: string;
-    start?: string;
-    end?: string;
-    duration_minutes?: number;
-    step_minutes?: number;
-    count?: number;
-  }): Promise<TimeSlot[]> {
-    const queryParams = new URLSearchParams({
-      date: params.date,
-      start: params.start || '12:00',
-      end: params.end || '00:00',
-      duration_minutes: String(params.duration_minutes || 60),
-      step_minutes: String(params.step_minutes || 30),
-      count: String(params.count || 1),
-    });
-
-    const res = await fetch(`${API_BASE}/api/slots?${queryParams}`);
-    if (!res.ok) throw new Error('Failed to fetch slots');
-    return res.json();
-  },
-
-  async createBooking(booking: BookingRequest): Promise<BookingResponse> {
-    const res = await fetch(`${API_BASE}/api/book`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(booking),
-    });
-    
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to create booking');
-    return data;
-  },
-};
+export async function getHosts(params = new URLSearchParams()) {
+  return json(`${API_BASE}/api/hosts?${params}`);
+}
+export async function getSlots(params: Record<string,string|number>) {
+  const qp = new URLSearchParams(Object.entries(params).map(([k,v]) => [k, String(v)]));
+  return json(`${API_BASE}/api/slots?${qp.toString()}`);
+}
+export async function createBooking(body: any) {
+  return json(`${API_BASE}/api/book`, { method: "POST", body: JSON.stringify(body) });
+}

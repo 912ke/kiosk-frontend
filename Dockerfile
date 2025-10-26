@@ -33,6 +33,8 @@ ENV PORT=5000
 
 # Открываем порт
 EXPOSE 5000
+# Healthcheck: ждём пока поднимется сервер и проверяем /healthz
+HEALTHCHECK --interval=30s --timeout=5s --retries=5 CMD wget -qO- http://localhost:5000/healthz >/dev/null 2>&1 || exit 1
 
 # Запускаем собранное приложение
 CMD ["node", "dist/index.js"]

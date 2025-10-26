@@ -5,6 +5,8 @@ import { insertBookingSchema, type SlotQuery } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // simple health endpoint
+  app.get("/healthz", (_req, res) => res.json({ ok: true }));
   // GET /api/catalog - Get club information
   app.get("/api/catalog", async (_req, res) => {
     try {
