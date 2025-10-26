@@ -41,6 +41,5 @@ coverage
 # Misc
 *.md
 !README-docker.md
-attached_assets
 tmp
 .tmp
